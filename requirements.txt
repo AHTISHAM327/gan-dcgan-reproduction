@@ -1,0 +1,9 @@
+torch
+torchvision
+torchmetrics[image]
+numpy
+pandas
+pillow
+matplotlib
+kaggle
+gradio
