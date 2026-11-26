@@ -170,9 +170,12 @@ class GANTrainer:
         self.scaler_g.load_state_dict(state['scaler_g']); self.scaler_d.load_state_dict(state['scaler_d'])
         self.history, self.epoch = state['history'], state['epoch']
         self.fixed_z = state['fixed_z'].to(self.device)
-        torch.set_rng_state(state['rng_cpu'])
-        if state['rng_cuda'] is not None and torch.cuda.is_available():
-            torch.cuda.set_rng_state_all(state['rng_cuda'])
+        torch.set_rng_state(state['rng_cpu'].cpu())
+
+if state['rng_cuda'] is not None and torch.cuda.is_available():
+    torch.cuda.set_rng_state_all(
+        [s.cpu() for s in state['rng_cuda']]
+    )
         print(f'Resumed from {self.ckpt_path} (finished epoch {self.epoch})')
         return self.epoch + 1
 
