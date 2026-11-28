@@ -164,6 +164,7 @@ class GANTrainer:
         """Load the checkpoint if it exists. Returns the epoch to start from."""
         if not (self.ckpt_path and os.path.exists(self.ckpt_path)):
             return 1
+
         state = torch.load(self.ckpt_path, map_location='cpu', weights_only=False)
         self.G.load_state_dict(state['G']); self.D.load_state_dict(state['D'])
         self.opt_g.load_state_dict(state['opt_g']); self.opt_d.load_state_dict(state['opt_d'])
